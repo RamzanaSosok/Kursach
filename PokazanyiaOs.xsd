@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PokazanyiaOs" targetNamespace="http://tempuri.org/PokazanyiaOs.xsd" xmlns:mstns="http://tempuri.org/PokazanyiaOs.xsd" xmlns="http://tempuri.org/PokazanyiaOs.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="kursachConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="kursachConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Kursach.Properties.Settings.GlobalReference.Default.kursachConnectionString" Provider="MySql.Data.MySqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="pokazanyia_osTableAdapter" GeneratorDataComponentClassName="pokazanyia_osTableAdapter" Name="pokazanyia_os" UserDataComponentName="pokazanyia_osTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="kursachConnectionString (Settings)" DbObjectName="kursach.pokazanyia_os" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT `scht_id`, `pokazanyia`, `date_os` FROM `pokazanyia_os`</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="scht_id" DataSetColumn="scht_id" />
+              <Mapping SourceColumn="pokazanyia" DataSetColumn="pokazanyia" />
+              <Mapping SourceColumn="date_os" DataSetColumn="date_os" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PokazanyiaOs" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="PokazanyiaOs" msprop:Generator_UserDSName="PokazanyiaOs">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="pokazanyia_os" msprop:Generator_TableClassName="pokazanyia_osDataTable" msprop:Generator_TableVarName="tablepokazanyia_os" msprop:Generator_TablePropName="pokazanyia_os" msprop:Generator_RowDeletingName="pokazanyia_osRowDeleting" msprop:Generator_RowChangingName="pokazanyia_osRowChanging" msprop:Generator_RowEvHandlerName="pokazanyia_osRowChangeEventHandler" msprop:Generator_RowDeletedName="pokazanyia_osRowDeleted" msprop:Generator_UserTableName="pokazanyia_os" msprop:Generator_RowChangedName="pokazanyia_osRowChanged" msprop:Generator_RowEvArgName="pokazanyia_osRowChangeEvent" msprop:Generator_RowClassName="pokazanyia_osRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="scht_id" msprop:Generator_ColumnVarNameInTable="columnscht_id" msprop:Generator_ColumnPropNameInRow="scht_id" msprop:Generator_ColumnPropNameInTable="scht_idColumn" msprop:Generator_UserColumnName="scht_id" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="45" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="pokazanyia" msprop:Generator_ColumnVarNameInTable="columnpokazanyia" msprop:Generator_ColumnPropNameInRow="pokazanyia" msprop:Generator_ColumnPropNameInTable="pokazanyiaColumn" msprop:Generator_UserColumnName="pokazanyia" type="xs:float" minOccurs="0" />
+              <xs:element name="date_os" msprop:Generator_ColumnVarNameInTable="columndate_os" msprop:Generator_ColumnPropNameInRow="date_os" msprop:Generator_ColumnPropNameInTable="date_osColumn" msprop:Generator_UserColumnName="date_os" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

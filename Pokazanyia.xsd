@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="kursachDataSet" targetNamespace="http://tempuri.org/Pokazanyia.xsd" xmlns:mstns="http://tempuri.org/Pokazanyia.xsd" xmlns="http://tempuri.org/Pokazanyia.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="kursachConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="kursachConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Kursach.Properties.Settings.GlobalReference.Default.kursachConnectionString" Provider="MySql.Data.MySqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="pokazaniyaTableAdapter" GeneratorDataComponentClassName="pokazaniyaTableAdapter" Name="pokazaniya" UserDataComponentName="pokazaniyaTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="kursachConnectionString (Settings)" DbObjectName="kursach.pokazaniya" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT `flat_id`, `pokazanyia`, `pokazanyia_date` FROM `pokazaniya`</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="flat_id" DataSetColumn="flat_id" />
+              <Mapping SourceColumn="pokazanyia" DataSetColumn="pokazanyia" />
+              <Mapping SourceColumn="pokazanyia_date" DataSetColumn="pokazanyia_date" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="kursachDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="kursachDataSet" msprop:Generator_UserDSName="kursachDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="pokazaniya" msprop:Generator_TableClassName="pokazaniyaDataTable" msprop:Generator_TableVarName="tablepokazaniya" msprop:Generator_TablePropName="pokazaniya" msprop:Generator_RowDeletingName="pokazaniyaRowDeleting" msprop:Generator_RowChangingName="pokazaniyaRowChanging" msprop:Generator_RowEvHandlerName="pokazaniyaRowChangeEventHandler" msprop:Generator_RowDeletedName="pokazaniyaRowDeleted" msprop:Generator_UserTableName="pokazaniya" msprop:Generator_RowChangedName="pokazaniyaRowChanged" msprop:Generator_RowEvArgName="pokazaniyaRowChangeEvent" msprop:Generator_RowClassName="pokazaniyaRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="flat_id" msprop:Generator_ColumnVarNameInTable="columnflat_id" msprop:Generator_ColumnPropNameInRow="flat_id" msprop:Generator_ColumnPropNameInTable="flat_idColumn" msprop:Generator_UserColumnName="flat_id" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="45" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="pokazanyia" msprop:Generator_ColumnVarNameInTable="columnpokazanyia" msprop:Generator_ColumnPropNameInRow="pokazanyia" msprop:Generator_ColumnPropNameInTable="pokazanyiaColumn" msprop:Generator_UserColumnName="pokazanyia" type="xs:float" minOccurs="0" />
+              <xs:element name="pokazanyia_date" msprop:Generator_ColumnVarNameInTable="columnpokazanyia_date" msprop:Generator_ColumnPropNameInRow="pokazanyia_date" msprop:Generator_ColumnPropNameInTable="pokazanyia_dateColumn" msprop:Generator_UserColumnName="pokazanyia_date" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
