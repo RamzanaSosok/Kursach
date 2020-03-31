@@ -88,13 +88,20 @@ namespace Kursach
 			if (Compare(this.PD,this.CD) && M != null)
 			{
 				this.Hide();
-				DateTime parsed;
-				parsed = DateTime.Parse(PD);
-				PD = parsed.ToString("yyyy-MM-dd");
-				parsed = DateTime.Parse(CD);
-				CD = parsed.ToString("yyyy-MM-dd");
-				View f1 = new View(PD, CD, M, this);
-				f1.ShowDialog();
+				DateTime parsed1, parsed2;
+				parsed1 = DateTime.Parse(PD);
+				PD = parsed1.ToString("yyyy-MM-dd");
+				parsed2 = DateTime.Parse(CD);
+				CD = parsed2.ToString("yyyy-MM-dd");
+				if (parsed1 < parsed2)
+				{
+					View f1 = new View(PD, CD, M, this);
+					f1.ShowDialog();
+				}
+				else
+				{
+					MessageBox.Show("Ошибка");
+				}
 			}
 			else
 			{

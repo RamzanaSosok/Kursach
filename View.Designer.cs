@@ -81,6 +81,7 @@
 			this.Page_textbox = new System.Windows.Forms.TextBox();
 			this.SecondName1_combobox = new System.Windows.Forms.ComboBox();
 			this.SecondName_combobox = new System.Windows.Forms.ComboBox();
+			this.Back_button = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -483,6 +484,7 @@
 			this.SecondName1_combobox.Name = "SecondName1_combobox";
 			this.SecondName1_combobox.Size = new System.Drawing.Size(101, 21);
 			this.SecondName1_combobox.TabIndex = 53;
+			this.SecondName1_combobox.SelectedIndexChanged += new System.EventHandler(this.SecondName1_combobox_SelectedIndexChanged);
 			// 
 			// SecondName_combobox
 			// 
@@ -493,11 +495,22 @@
 			this.SecondName_combobox.TabIndex = 54;
 			this.SecondName_combobox.SelectedIndexChanged += new System.EventHandler(this.SecondName_combobox_SelectedIndexChanged);
 			// 
+			// Back_button
+			// 
+			this.Back_button.Location = new System.Drawing.Point(337, 13);
+			this.Back_button.Name = "Back_button";
+			this.Back_button.Size = new System.Drawing.Size(100, 24);
+			this.Back_button.TabIndex = 55;
+			this.Back_button.Text = "Назад";
+			this.Back_button.UseVisualStyleBackColor = true;
+			this.Back_button.Click += new System.EventHandler(this.Back_button_Click);
+			// 
 			// View
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(450, 507);
+			this.Controls.Add(this.Back_button);
 			this.Controls.Add(this.SecondName_combobox);
 			this.Controls.Add(this.SecondName1_combobox);
 			this.Controls.Add(this.Page_textbox);
@@ -614,5 +627,6 @@
 		private System.Windows.Forms.TextBox Page_textbox;
 		private System.Windows.Forms.ComboBox SecondName1_combobox;
 		private System.Windows.Forms.ComboBox SecondName_combobox;
+		private System.Windows.Forms.Button Back_button;
 	}
 }
