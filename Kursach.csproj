@@ -65,11 +65,11 @@
     <Compile Include="AdditionalInformation.Designer.cs">
       <DependentUpon>AdditionalInformation.cs</DependentUpon>
     </Compile>
-    <Compile Include="Calculation.cs">
+    <Compile Include="Calculation2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Calculation.Designer.cs">
-      <DependentUpon>Calculation.cs</DependentUpon>
+    <Compile Include="Calculation2.Designer.cs">
+      <DependentUpon>Calculation2.cs</DependentUpon>
     </Compile>
     <Compile Include="Connection.cs" />
     <Compile Include="Indications.cs">
@@ -105,6 +105,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report.Designer.cs">
+      <DependentUpon>Report.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tenants.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -137,8 +143,8 @@
     <EmbeddedResource Include="AdditionalInformation.resx">
       <DependentUpon>AdditionalInformation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Calculation.resx">
-      <DependentUpon>Calculation.cs</DependentUpon>
+    <EmbeddedResource Include="Calculation2.resx">
+      <DependentUpon>Calculation2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Indications.resx">
       <DependentUpon>Indications.cs</DependentUpon>
@@ -158,6 +164,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Report.resx">
+      <DependentUpon>Report.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TenantsInformation.resx">
       <DependentUpon>TenantsInformation.cs</DependentUpon>
     </EmbeddedResource>

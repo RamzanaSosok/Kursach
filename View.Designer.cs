@@ -449,6 +449,7 @@
 			this.Change_button.TabIndex = 48;
 			this.Change_button.Text = "Редактироавать";
 			this.Change_button.UseVisualStyleBackColor = true;
+			this.Change_button.Click += new System.EventHandler(this.Change_button_Click);
 			// 
 			// TenantsList_button
 			// 
@@ -458,6 +459,7 @@
 			this.TenantsList_button.TabIndex = 49;
 			this.TenantsList_button.Text = "Список жильцов";
 			this.TenantsList_button.UseVisualStyleBackColor = true;
+			this.TenantsList_button.Click += new System.EventHandler(this.TenantsList_button_Click);
 			// 
 			// Otch_button
 			// 
@@ -467,6 +469,7 @@
 			this.Otch_button.TabIndex = 50;
 			this.Otch_button.Text = "Отчёт";
 			this.Otch_button.UseVisualStyleBackColor = true;
+			this.Otch_button.Click += new System.EventHandler(this.Otch_button_Click);
 			// 
 			// label19
 			// 

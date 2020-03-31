@@ -16,10 +16,19 @@ namespace Kursach
 		private DateTime thisDay = DateTime.Today;
 		private bool first_loaded = false;
 		private bool second_loaded = false;
-		public Indications(MainMenu f)
+		private int t;
+		public Indications(View f, int target)
 		{
 			InitializeComponent();
 			Owner = f;
+			t = target;
+			Date_textbox.Text = this.thisDay.ToString("yyyy-MM-dd"); //Форматируем дату под формат MySQL и вставляем её в textbox
+		}
+		public Indications(MainMenu f, int target)
+		{
+			InitializeComponent();
+			Owner = f;
+			t = target;
 			Date_textbox.Text = this.thisDay.ToString("yyyy-MM-dd"); //Форматируем дату под формат MySQL и вставляем её в textbox
 		}
 
@@ -43,9 +52,19 @@ namespace Kursach
 
 		private void MainMenu_button_Click(object sender, EventArgs e)
 		{
-			MainMenu f1 = (MainMenu)Owner;
-			f1.Show();
-			Close();
+			if (t == 1)
+			{
+				MainMenu f1 = (MainMenu) Owner;
+				f1.Show();
+				Close();
+			}
+			else if (t == 2)
+			{
+				View f1 = (View) Owner;
+				f1.UpdateData();
+				f1.Show();
+				this.Close();
+			}
 		}
 
 		private void AddIndication_button_Click(object sender, EventArgs e)

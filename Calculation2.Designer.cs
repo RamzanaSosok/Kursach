@@ -1,6 +1,6 @@
 ﻿namespace Kursach
 {
-	partial class Calculation
+	partial class Calculation2
 	{
 		/// <summary>
 		/// Required designer variable.

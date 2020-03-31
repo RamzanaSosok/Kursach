@@ -12,22 +12,39 @@ namespace Kursach
 {
 	public partial class TenantsList : Form
 	{
-		public TenantsList(AdditionalInformation f)
+		private int t;
+		public TenantsList(View f, int target)
 		{
 			InitializeComponent();
+			t = target;
+			Owner = f;
+		}
+		public TenantsList(AdditionalInformation f, int target)
+		{
+			InitializeComponent();
+			t = target;
 			Owner = f;
 		}
 
 		private void Back_button_Click(object sender, EventArgs e)
 		{
-			AdditionalInformation f1 = (AdditionalInformation) Owner;
-			f1.Show();
-			Close();
+			if (t == 1)
+			{
+				AdditionalInformation f1 = (AdditionalInformation) Owner;
+				f1.Show();
+				Close();
+			}
+			else if (t == 2)
+			{
+				View f1 = (View) Owner;
+				f1.Show();
+				Close();
+			}
 		}
 
 		private void TenantsList_Load(object sender, EventArgs e)
 		{
-			// TODO: данная строка кода позволяет загрузить данные в таблицу "tenants.tenants". При необходимости она может быть перемещена или удалена.
+			//данная строка кода позволяет загрузить данные в таблицу "tenants.tenants". При необходимости она может быть перемещена или удалена.
 			this.tenantsTableAdapter.Fill(this.tenants.tenants);
 
 		}

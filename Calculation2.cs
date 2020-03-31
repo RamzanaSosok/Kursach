@@ -11,13 +11,15 @@ using System.Windows.Forms;
 
 namespace Kursach
 {
-	public partial class Calculation : Form
+	public partial class Calculation2 : Form
 	{
 		private string PD, CD, M;
-		public Calculation(MainMenu f)
+		private int t;
+		public Calculation2(MainMenu f, int target)
 		{
 			InitializeComponent();
 			Owner = f;
+			t = target;
 			var con = new Connection().Connect();
 			if (con == null)
 				return;
@@ -85,7 +87,7 @@ namespace Kursach
 
 		private void View_button_Click(object sender, EventArgs e)
 		{
-			if (Compare(this.PD,this.CD) && M != null)
+			if (Compare(this.PD,this.CD) && M != null && t == 1)
 			{
 				this.Hide();
 				DateTime parsed1, parsed2;
@@ -103,9 +105,23 @@ namespace Kursach
 					MessageBox.Show("Ошибка");
 				}
 			}
-			else
+			else if (Compare(this.PD, this.CD) && M != null && t == 2)
 			{
-				MessageBox.Show("Ошибка");
+				this.Hide();
+				DateTime parsed1, parsed2;
+				parsed1 = DateTime.Parse(PD);
+				PD = parsed1.ToString("yyyy-MM-dd");
+				parsed2 = DateTime.Parse(CD);
+				CD = parsed2.ToString("yyyy-MM-dd");
+				if (parsed1 < parsed2)
+				{
+					Report f1 = new Report(PD, CD, M, this, 1);
+					f1.ShowDialog();
+				}
+				else
+				{
+					MessageBox.Show("Ошибка");
+				}
 			}
 		}
 

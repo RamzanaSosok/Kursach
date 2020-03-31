@@ -19,20 +19,22 @@ namespace Kursach
 		private void Indications_button_Click(object sender, EventArgs e)
 		{
 			this.Hide();
-			Indications f = new Indications(this);
+			Indications f = new Indications(this, 1);
 			f.ShowDialog();
 		}
 
 		private void Calculation_button_Click(object sender, EventArgs e)
 		{
 			this.Hide();
-			Calculation f = new Calculation(this);
+			Calculation2 f = new Calculation2(this, 1);
 			f.ShowDialog();
 		}
 
 		private void Report_button_Click(object sender, EventArgs e)
 		{
-
+			this.Hide();
+			Calculation2 f = new Calculation2(this, 2);
+			f.ShowDialog();
 		}
 
 		private void Receipts_button_Click(object sender, EventArgs e)

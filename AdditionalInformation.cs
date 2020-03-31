@@ -27,7 +27,7 @@ namespace Kursach
 		private void TenantsList_button_Click(object sender, EventArgs e)
 		{
 			this.Hide();
-			TenantsList f = new TenantsList(this);
+			TenantsList f = new TenantsList(this, 1);
 			f.ShowDialog();
 		}
 

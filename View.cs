@@ -30,7 +30,7 @@ namespace Kursach
 		{
 			
 		}
-		public View(string PreviousDate, string CurrentDate, string Month, Calculation f)
+		public View(string PreviousDate, string CurrentDate, string Month, Calculation2 f)
 		{
 			InitializeComponent();
 			Owner = f;
@@ -250,6 +250,7 @@ namespace Kursach
 			for (int i = 0; i < Convert.ToInt32(flats.Count); i++)
 			{
 				CommonLight.Add(results[i] * PerMeter);
+				FlatsAreas.Add(GetArea(flats[i]));
 				SetSumm(tenants[i], i);
 			}
 			SetResults();
@@ -285,14 +286,258 @@ namespace Kursach
 			}
 		}
 
-		
+		public void UpdateData()
+		{
+			flats.Clear();
+			tenants.Clear();
+			results.Clear();
+			Summ.Clear();
+			CommonSumm.Clear();
+			CommonLight.Clear();
+			FlatsAreas.Clear();
+			var Sql = "SELECT MAX(date_Tarif) AS date_Tarif FROM kursach.Tarif WHERE date_Tarif <= '" + CD + "'";
+				var con = new Connection().Connect();
+				if (con == null)
+					return;
+				var command = new Connection().Command(Sql, con);
+				var Reader = command.ExecuteReader();
+				Reader.Read();
+				var FindDate = Reader.GetDateTime(0).ToString();
+				string[] separators = { " 0:00:00" };
+				FindDate = FindDate.Split(separators, StringSplitOptions.None)[0];
+				DateTime parsed;
+				parsed = DateTime.Parse(FindDate);
+				FindDate = parsed.ToString("yyyy-MM-dd");
+				Reader.Close();
+
+				Sql = "SELECT flat_Tarif, OC FROM kursach.Tarif WHERE date_Tarif = '" + FindDate + "';";
+				con = new Connection().Connect();
+				command = new MySqlCommand(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+
+				Tarif = Convert.ToDecimal(Reader.GetValue(0));
+				TarifOs = Convert.ToDecimal(Reader.GetValue(1));
+
+				Reader.Close();
+
+				con = new Connection().Connect();
+				if (con == null)
+					return;
+				Sql = "SELECT flat_number, fio_tenant FROM kursach.tenants;";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				foreach (DbDataRecord record in Reader)
+				{
+					flats.Add(record.GetValue(0).ToString());
+					tenants.Add(record.GetValue(1).ToString());
+				}
+				Reader.Close();
+
+				con = new Connection().Connect();
+				if (con == null)
+					return;
+				Sql = "SELECT MAX(date_os) AS date_os FROM kursach.pokazanyia_os  WHERE scht_id = 'лифт' AND date_os <= '" +
+					  CD + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				var FindDateMax = Reader.GetDateTime(0).ToString();
+				FindDateMax = FindDateMax.Split(separators, StringSplitOptions.None)[0];
+				parsed = DateTime.Parse(FindDateMax);
+				FindDateMax = parsed.ToString("yyyy-MM-dd");
+				Reader.Close();
+
+				con = new Connection().Connect();
+				if (con == null)
+					return;
+				Sql = "SELECT MIN(date_os) AS date_os FROM kursach.pokazanyia_os  WHERE scht_id = 'лифт' AND date_os >= '" +
+					  PD + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				var FindDateMin = Reader.GetDateTime(0).ToString();
+				FindDateMin = FindDateMin.Split(separators, StringSplitOptions.None)[0];
+				parsed = DateTime.Parse(FindDateMin);
+				FindDateMin = parsed.ToString("yyyy-MM-dd");
+				Reader.Close();
+
+				Sql = "SELECT pokazanyia FROM kursach.pokazanyia_os  WHERE scht_id = 'лифт' AND date_os = '" + FindDateMax + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				var MaxOs = Convert.ToInt32(Reader.GetValue(0));
+				Reader.Close();
+
+				Sql = "SELECT pokazanyia FROM kursach.pokazanyia_os  WHERE scht_id = 'лифт' AND date_os = '" + FindDateMin + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				var MinOs = Convert.ToInt32(Reader.GetValue(0));
+				Reader.Close();
+
+				LiftDifference_textbox.Text = (MaxOs - MinOs).ToString();
+				LiftPay_textbox.Text = (Decimal.Round((MaxOs - MinOs) * TarifOs, 2)).ToString();
+
+
+				con = new Connection().Connect();
+				if (con == null)
+					return;
+				Sql = "SELECT MAX(date_os) AS date_os FROM kursach.pokazanyia_os  WHERE scht_id = 'дом' AND date_os <= '" +
+					  CD + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				FindDateMax = Reader.GetDateTime(0).ToString();
+				FindDateMax = FindDateMax.Split(separators, StringSplitOptions.None)[0];
+				parsed = DateTime.Parse(FindDateMax);
+				FindDateMax = parsed.ToString("yyyy-MM-dd");
+				Reader.Close();
+
+				con = new Connection().Connect();
+				if (con == null)
+					return;
+				Sql = "SELECT MIN(date_os) AS date_os FROM kursach.pokazanyia_os  WHERE scht_id = 'дом' AND date_os >= '" +
+					  PD + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				FindDateMin = Reader.GetDateTime(0).ToString();
+				FindDateMin = FindDateMin.Split(separators, StringSplitOptions.None)[0];
+				parsed = DateTime.Parse(FindDateMin);
+				FindDateMin = parsed.ToString("yyyy-MM-dd");
+				Reader.Close();
+
+				Sql = "SELECT pokazanyia FROM kursach.pokazanyia_os  WHERE scht_id = 'дом' AND date_os = '" + FindDateMax + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				MaxOs = Convert.ToInt32(Reader.GetValue(0));
+				Reader.Close();
+
+				Sql = "SELECT pokazanyia FROM kursach.pokazanyia_os  WHERE scht_id = 'дом' AND date_os = '" + FindDateMin + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				MinOs = Convert.ToInt32(Reader.GetValue(0));
+				Reader.Close();
+
+				HouseDifference_textbox.Text = (MaxOs - MinOs).ToString();
+				HousePay_textbox.Text = (Decimal.Round((MaxOs - MinOs) * TarifOs, 2)).ToString();
+
+
+				con = new Connection().Connect();
+				if (con == null)
+					return;
+				Sql = "SELECT MAX(date_os) AS date_os FROM kursach.pokazanyia_os  WHERE scht_id = 'кв' AND date_os <= '" +
+					  CD + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				FindDateMax = Reader.GetDateTime(0).ToString();
+				FindDateMax = FindDateMax.Split(separators, StringSplitOptions.None)[0];
+				parsed = DateTime.Parse(FindDateMax);
+				FindDateMax = parsed.ToString("yyyy-MM-dd");
+				Reader.Close();
+
+				con = new Connection().Connect();
+				if (con == null)
+					return;
+				Sql = "SELECT MIN(date_os) AS date_os FROM kursach.pokazanyia_os  WHERE scht_id = 'кв' AND date_os >= '" +
+					  PD + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				FindDateMin = Reader.GetDateTime(0).ToString();
+				FindDateMin = FindDateMin.Split(separators, StringSplitOptions.None)[0];
+				parsed = DateTime.Parse(FindDateMin);
+				FindDateMin = parsed.ToString("yyyy-MM-dd");
+				Reader.Close();
+
+				Sql = "SELECT pokazanyia FROM kursach.pokazanyia_os  WHERE scht_id = 'кв' AND date_os = '" + FindDateMax + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				MaxOs = Convert.ToInt32(Reader.GetValue(0));
+				Reader.Close();
+
+				Sql = "SELECT pokazanyia FROM kursach.pokazanyia_os  WHERE scht_id = 'кв' AND date_os = '" + FindDateMin + "'";
+				command = new Connection().Command(Sql, con);
+				Reader = command.ExecuteReader();
+				Reader.Read();
+				MinOs = Convert.ToInt32(Reader.GetValue(0));
+				Reader.Close();
+
+				FlatDifference_textbox.Text = (MaxOs - MinOs).ToString();
+				FlatPay_textbox.Text = (Decimal.Round((MaxOs - MinOs) * TarifOs, 2)).ToString();
+
+				SumDifference_textbox.Text = (Convert.ToInt32(FlatDifference_textbox.Text) +
+											  Convert.ToInt32(LiftDifference_textbox.Text) +
+											  Convert.ToInt32(HouseDifference_textbox.Text)).ToString();
+				SumPay_textbox.Text = Decimal.Round(Convert.ToDecimal(LiftPay_textbox.Text)
+									   + Convert.ToDecimal(HousePay_textbox.Text)
+									   + Convert.ToDecimal(FlatPay_textbox.Text), 2).ToString();
+
+				size = flats.Count / 2;
+				IndexPage = 1;
+				index = 0;
+
+				Page_textbox.Text = IndexPage.ToString() + '/' + size.ToString();
+
+				decimal Sum = 0;
+				decimal SumPay = 0;
+
+
+				for (int i = 0; i < Convert.ToInt32(flats.Count); i++)
+				{
+					results.Add(FindMax(flats[i]) - FindMin(flats[i]));
+					Sum += results[i];
+					SumPay += results[i] * Tarif;
+				}
+
+				SumPay = Decimal.Round(SumPay, 2);
+				CommonArea = Settings.Default.AreaSize;
+				CommonArea_textbox.Text = CommonArea.ToString();
+				PerMeter = Decimal.Round((Convert.ToDecimal(SumPay_textbox.Text) - SumPay) / CommonArea, 2);
+				DiffPay_textbox.Text = SumPay.ToString();
+				DiffSum_textbox.Text = Sum.ToString();
+				PerMeter_textbox.Text = PerMeter.ToString();
+				for (int i = 0; i < Convert.ToInt32(flats.Count); i++)
+				{
+					CommonLight.Add(results[i] * PerMeter);
+					FlatsAreas.Add(GetArea(flats[i]));
+					SetSumm(tenants[i], i);
+				}
+				SetResults();
+		}
+		private void Otch_button_Click(object sender, EventArgs e)
+		{
+			this.Hide();
+			Report f = new Report(PD, CD, M, this, 2);
+			f.ShowDialog();
+		}
+
+		private void TenantsList_button_Click(object sender, EventArgs e)
+		{
+			this.Hide();
+			TenantsList f = new TenantsList(this,2);
+			f.ShowDialog();
+		}
+
+		private void Change_button_Click(object sender, EventArgs e)
+		{
+			this.Hide();
+			Indications f = new Indications(this, 2);
+			f.ShowDialog();
+		}
+
 		private void SetResults()
 		{
 			FIO_textbox.Text = tenants[index];
 			FlatId_textbox.Text = flats[index].ToString();
 			DifferenceFlat_textbox.Text = results[index].ToString();
 			FlatIdPay_textbox.Text = Summ[index].ToString();
-			AreaFlat_textbox.Text = GetArea(flats[index]).ToString();
+			AreaFlat_textbox.Text = FlatsAreas[index].ToString();
 			CommonLight_textbox.Text = Decimal.Round(Convert.ToDecimal(AreaFlat_textbox.Text) * TarifOs, 2).ToString();
 			Sum_textbox.Text = CommonSumm[index].ToString();
 
@@ -304,7 +549,7 @@ namespace Kursach
 				FlatId1_textbox.Text = flats[index].ToString();
 				DifferenceFlat1_textbox.Text = results[index].ToString();
 				FlatIdPay1_textbox.Text = Summ[index].ToString();
-				AreaFlat1_textbox.Text = GetArea(flats[index]).ToString();
+				AreaFlat1_textbox.Text = FlatsAreas[index].ToString();
 				CommonLight1_textbox.Text = Decimal.Round(Convert.ToDecimal(AreaFlat1_textbox.Text) * TarifOs, 2).ToString();
 				Sum1_textbox.Text = CommonSumm[index].ToString();
 
@@ -349,7 +594,7 @@ namespace Kursach
 
 		private void Back_button_Click(object sender, EventArgs e)
 		{
-			Calculation f1 = (Calculation) Owner;
+			Calculation2 f1 = (Calculation2) Owner;
 			f1.Show();
 			this.Close();
 		}
