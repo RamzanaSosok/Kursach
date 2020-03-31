@@ -76,8 +76,6 @@
 			this.Otch_button = new System.Windows.Forms.Button();
 			this.label19 = new System.Windows.Forms.Label();
 			this.Page_textbox = new System.Windows.Forms.TextBox();
-			this.SecondName1_combobox = new System.Windows.Forms.ComboBox();
-			this.SecondName_combobox = new System.Windows.Forms.ComboBox();
 			this.Back_button = new System.Windows.Forms.Button();
 			this.label20 = new System.Windows.Forms.Label();
 			this.label21 = new System.Windows.Forms.Label();
@@ -90,6 +88,8 @@
 			this.label24 = new System.Windows.Forms.Label();
 			this.label25 = new System.Windows.Forms.Label();
 			this.label26 = new System.Windows.Forms.Label();
+			this.FIO_textbox = new System.Windows.Forms.TextBox();
+			this.FIO1_textbox = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -484,24 +484,6 @@
 			this.Page_textbox.Size = new System.Drawing.Size(51, 20);
 			this.Page_textbox.TabIndex = 52;
 			// 
-			// SecondName1_combobox
-			// 
-			this.SecondName1_combobox.FormattingEnabled = true;
-			this.SecondName1_combobox.Location = new System.Drawing.Point(119, 335);
-			this.SecondName1_combobox.Name = "SecondName1_combobox";
-			this.SecondName1_combobox.Size = new System.Drawing.Size(101, 21);
-			this.SecondName1_combobox.TabIndex = 53;
-			this.SecondName1_combobox.SelectedIndexChanged += new System.EventHandler(this.SecondName1_combobox_SelectedIndexChanged);
-			// 
-			// SecondName_combobox
-			// 
-			this.SecondName_combobox.FormattingEnabled = true;
-			this.SecondName_combobox.Location = new System.Drawing.Point(119, 190);
-			this.SecondName_combobox.Name = "SecondName_combobox";
-			this.SecondName_combobox.Size = new System.Drawing.Size(101, 21);
-			this.SecondName_combobox.TabIndex = 54;
-			this.SecondName_combobox.SelectedIndexChanged += new System.EventHandler(this.SecondName_combobox_SelectedIndexChanged);
-			// 
 			// Back_button
 			// 
 			this.Back_button.Location = new System.Drawing.Point(337, 13);
@@ -600,11 +582,29 @@
 			this.label26.TabIndex = 66;
 			this.label26.Text = "Квартиры";
 			// 
+			// FIO_textbox
+			// 
+			this.FIO_textbox.Location = new System.Drawing.Point(119, 188);
+			this.FIO_textbox.Name = "FIO_textbox";
+			this.FIO_textbox.ReadOnly = true;
+			this.FIO_textbox.Size = new System.Drawing.Size(100, 20);
+			this.FIO_textbox.TabIndex = 67;
+			// 
+			// FIO1_textbox
+			// 
+			this.FIO1_textbox.Location = new System.Drawing.Point(119, 335);
+			this.FIO1_textbox.Name = "FIO1_textbox";
+			this.FIO1_textbox.ReadOnly = true;
+			this.FIO1_textbox.Size = new System.Drawing.Size(101, 20);
+			this.FIO1_textbox.TabIndex = 68;
+			// 
 			// View
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(451, 576);
+			this.Controls.Add(this.FIO1_textbox);
+			this.Controls.Add(this.FIO_textbox);
 			this.Controls.Add(this.label26);
 			this.Controls.Add(this.label25);
 			this.Controls.Add(this.label24);
@@ -617,8 +617,6 @@
 			this.Controls.Add(this.label21);
 			this.Controls.Add(this.label20);
 			this.Controls.Add(this.Back_button);
-			this.Controls.Add(this.SecondName_combobox);
-			this.Controls.Add(this.SecondName1_combobox);
 			this.Controls.Add(this.Page_textbox);
 			this.Controls.Add(this.label19);
 			this.Controls.Add(this.Otch_button);
@@ -725,8 +723,6 @@
 		private System.Windows.Forms.Button Otch_button;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.TextBox Page_textbox;
-		private System.Windows.Forms.ComboBox SecondName1_combobox;
-		private System.Windows.Forms.ComboBox SecondName_combobox;
 		private System.Windows.Forms.Button Back_button;
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.Label label21;
@@ -739,5 +735,7 @@
 		private System.Windows.Forms.Label label24;
 		private System.Windows.Forms.Label label25;
 		private System.Windows.Forms.Label label26;
+		private System.Windows.Forms.TextBox FIO_textbox;
+		private System.Windows.Forms.TextBox FIO1_textbox;
 	}
 }

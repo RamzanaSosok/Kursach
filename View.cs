@@ -18,8 +18,11 @@ namespace Kursach
 	{
 		private string PD, CD, M;
 		private List<string> flats = new List<string>();
+		private List<string> tenants = new List<string>();
 		private List <int> results = new List<int>();
-
+		private List<decimal> Summ = new List<decimal>();
+		private List<decimal> CommonSumm = new List<decimal>();
+		private List<decimal> CommonLight = new List<decimal>();
 		private List<decimal> FlatsAreas = new List<decimal>();
 		private int size, index, IndexPage;
 		private decimal Tarif, TarifOs, CommonArea, PerMeter;
@@ -66,14 +69,15 @@ namespace Kursach
 			con = new Connection().Connect();
 			if (con == null)
 				return;
-			Sql = "SELECT DISTINCT flat_id FROM kursach.pokazaniya;";
+			Sql = "SELECT flat_number, fio_tenant FROM kursach.tenants;";
 			command = new Connection().Command(Sql, con);
 			Reader = command.ExecuteReader();
 			foreach (DbDataRecord record in Reader)
 			{
 				flats.Add(record.GetValue(0).ToString());
+				tenants.Add(record.GetValue(1).ToString());
 			}
-
+			Reader.Close();
 
 			con = new Connection().Connect();
 			if (con == null)
@@ -227,6 +231,8 @@ namespace Kursach
 
 			decimal Sum = 0;
 			decimal SumPay = 0;
+
+
 			for (int i = 0; i < Convert.ToInt32(flats.Count); i++)
 			{
 				results.Add(FindMax(flats[i]) - FindMin(flats[i]));
@@ -237,11 +243,15 @@ namespace Kursach
 			SumPay = Decimal.Round(SumPay, 2);
 			CommonArea = Settings.Default.AreaSize;
 			CommonArea_textbox.Text = CommonArea.ToString();
-			PerMeter = Decimal.Round((Convert.ToDecimal(SumPay_textbox.Text) - SumPay)/CommonArea, 2);
+			PerMeter = Decimal.Round((Convert.ToDecimal(SumPay_textbox.Text) - SumPay) / CommonArea, 2);
 			DiffPay_textbox.Text = SumPay.ToString();
 			DiffSum_textbox.Text = Sum.ToString();
 			PerMeter_textbox.Text = PerMeter.ToString();
-
+			for (int i = 0; i < Convert.ToInt32(flats.Count); i++)
+			{
+				CommonLight.Add(results[i] * PerMeter);
+				SetSumm(tenants[i], i);
+			}
 			SetResults();
 		}
 
@@ -278,51 +288,35 @@ namespace Kursach
 		
 		private void SetResults()
 		{
-			var con = new Connection().Connect();
-			if (con == null)
-				return;
-			var Sql = "SELECT fio_tenant FROM kursach.tenants WHERE flat_number = '" + flats[index] + "';";
-			var command = new Connection().Command(Sql, con);
-			var Reader = command.ExecuteReader();
-			foreach (DbDataRecord record in Reader)
-			{
-				SecondName_combobox.Items.Add(record.GetValue(0).ToString());
-			}
-			Reader.Close();
-
+			FIO_textbox.Text = tenants[index];
 			FlatId_textbox.Text = flats[index].ToString();
 			DifferenceFlat_textbox.Text = results[index].ToString();
-			FlatIdPay_textbox.Text = "";
+			FlatIdPay_textbox.Text = Summ[index].ToString();
 			AreaFlat_textbox.Text = GetArea(flats[index]).ToString();
 			CommonLight_textbox.Text = Decimal.Round(Convert.ToDecimal(AreaFlat_textbox.Text) * TarifOs, 2).ToString();
+			Sum_textbox.Text = CommonSumm[index].ToString();
 
 			if (index + 1 < flats.Count)
 			{
 				index++;
-				Sql = "SELECT fio_tenant FROM kursach.tenants WHERE flat_number = '" + flats[index] + "';";
-				command = new Connection().Command(Sql, con);
-				Reader = command.ExecuteReader();
-				foreach (DbDataRecord record in Reader)
-				{
-					SecondName1_combobox.Items.Add(record.GetValue(0).ToString());
-				}
-				Reader.Close();
 
+				FIO1_textbox.Text = tenants[index];
 				FlatId1_textbox.Text = flats[index].ToString();
 				DifferenceFlat1_textbox.Text = results[index].ToString();
-				FlatIdPay1_textbox.Text = "";
+				FlatIdPay1_textbox.Text = Summ[index].ToString();
 				AreaFlat1_textbox.Text = GetArea(flats[index]).ToString();
 				CommonLight1_textbox.Text = Decimal.Round(Convert.ToDecimal(AreaFlat1_textbox.Text) * TarifOs, 2).ToString();
+				Sum1_textbox.Text = CommonSumm[index].ToString();
 
 				index--;
 			}
 			Page_textbox.Text = IndexPage.ToString() + '/' + size.ToString();
 		}
 
-		private void SecondName_combobox_SelectedIndexChanged(object sender, EventArgs e)
+		private void SetSumm(string fio, int index)
 		{
 			var Sql = "SELECT lgota FROM kursach.tenants WHERE fio_tenant = '" +
-			      SecondName_combobox.SelectedItem + "';";
+			      fio + "';";
 			var con = new Connection().Connect();
 			if (con == null)
 				return;
@@ -342,18 +336,14 @@ namespace Kursach
 				var split = formula.Split('/');
 				var koef = Convert.ToDecimal(split[0][split[0].Length - 1].ToString())
 				                             /Convert.ToDecimal(split[1][0].ToString());
-				FlatIdPay_textbox.Text = (Decimal.Round(Tarif * koef * Convert.ToDecimal(DifferenceFlat_textbox.Text), 2)).ToString();
-				Sum_textbox.Text = (Convert.ToDecimal(CommonLight_textbox.Text) + Convert.ToDecimal(FlatIdPay_textbox.Text))
-					.ToString();
-				return;
+				Summ.Add(Decimal.Round(Tarif * koef * Convert.ToDecimal(results[index]), 2));
+				CommonSumm.Add(Convert.ToDecimal(CommonLight[index]) + Convert.ToDecimal(Summ[index]));
 			}
 			catch
 			{
 				Reader.Close();
-				FlatIdPay_textbox.Text = (Tarif * Convert.ToDecimal(DifferenceFlat_textbox.Text)).ToString();
-				Sum_textbox.Text = (Convert.ToDecimal(CommonLight_textbox.Text) + Convert.ToDecimal(FlatIdPay_textbox.Text))
-					.ToString();
-				return;
+				Summ.Add(Tarif * Convert.ToDecimal(results[index]));
+				CommonSumm.Add(Convert.ToDecimal(CommonLight[index]) + Convert.ToDecimal(Summ[index]));
 			}
 		}
 
@@ -362,45 +352,6 @@ namespace Kursach
 			Calculation f1 = (Calculation) Owner;
 			f1.Show();
 			this.Close();
-		}
-
-		private void SecondName1_combobox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			
-			var Sql = "SELECT lgota FROM kursach.tenants WHERE fio_tenant = '" +
-			      SecondName1_combobox.SelectedItem + "';";
-			var con = new Connection().Connect();
-			if (con == null)
-				return;
-			var command = new Connection().Command(Sql, con);
-			var Reader = command.ExecuteReader();
-			Reader.Read();
-			try
-			{
-				var lgota = Reader.GetValue(0).ToString();
-				Reader.Close();
-				Sql = "SELECT lgota_formula FROM kursach.lgoty WHERE lgota_id = '" + lgota + "';";
-				command = new Connection().Command(Sql, con);
-				Reader = command.ExecuteReader();
-				Reader.Read();
-				var formula = Reader.GetValue(0).ToString();
-				Reader.Close();
-				var split = formula.Split('/');
-				var koef = Convert.ToDecimal(split[0][split[0].Length - 1].ToString())
-				           / Convert.ToDecimal(split[1][0].ToString());
-				FlatIdPay1_textbox.Text = (Decimal.Round(Tarif * koef * Convert.ToDecimal(DifferenceFlat1_textbox.Text), 2)).ToString();
-				Sum1_textbox.Text = (Convert.ToDecimal(CommonLight1_textbox.Text) + Convert.ToDecimal(FlatIdPay1_textbox.Text))
-					.ToString();
-				return;
-			}
-			catch
-			{
-				Reader.Close();
-				FlatIdPay1_textbox.Text = (Tarif * Convert.ToDecimal(DifferenceFlat1_textbox.Text)).ToString();
-				Sum1_textbox.Text = (Convert.ToDecimal(CommonLight1_textbox.Text) + Convert.ToDecimal(FlatIdPay1_textbox.Text))
-					.ToString();
-				return;
-			}
 		}
 
 		private int FindMin(string val)
@@ -475,10 +426,8 @@ namespace Kursach
 		{
 			FlatId_textbox.Text = "";
 			FlatId1_textbox.Text = "";
-			SecondName_combobox.SelectedIndex = -1;
-			SecondName1_combobox.SelectedIndex = -1;
-			SecondName_combobox.Items.Clear();
-			SecondName1_combobox.Items.Clear();
+			FIO_textbox.Text = "";
+			FIO1_textbox.Text = "";
 			DifferenceFlat_textbox.Text = "";
 			DifferenceFlat1_textbox.Text = "";
 			AreaFlat_textbox.Text = "";
